@@ -49,7 +49,9 @@ const Ad: React.FC<AdType> = ({
         googletag.enums.OutOfPageFormat[type]
       )
       if (adSlot) {
-        adSlot.setTargeting('type', type)
+        setTargeting()
+        setEvents(adSlot)
+        mappingSize()
         adSlot.addService(googletag.pubads())
         googletag.pubads().enableSingleRequest()
         googletag.enableServices()
