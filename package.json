@@ -4,7 +4,7 @@
   "description": "A React component for Google Ad Manager",
   "author": "Armando Tomazzoni Junior",
   "license": "MIT",
-  "repository": "tomattone/react-ad-manager",
+  "repository": "fitzgers/react-ad-manager",
   "main": "dist/index.js",
   "engines": {
     "node": ">=8",
