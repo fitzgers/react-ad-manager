@@ -37,7 +37,7 @@ const adFactory = (adSlot, googletag, refreshTimer) => {
     return {
         runLoop: () => {
             if (instance === null || !isLoopRun)
-                instance = new loop;
+                instance = new loop();
             return instance;
         },
         setViewPercentage,
@@ -45,13 +45,17 @@ const adFactory = (adSlot, googletag, refreshTimer) => {
         adSlot,
     };
 };
-const pushAdSlotToRefresh = (adSlot, refreshTimer, googletag) => {
-    const adSlotToInsert = adFactory(adSlot, refreshTimer, googletag);
+const pushAdSlotToRefresh = (adSlot, googletag, refreshTimer) => {
+    if (!googletag || !refreshTimer || isNaN(refreshTimer)) {
+        console.error('Invalid parameters for pushAdSlotToRefresh');
+        return;
+    }
+    const adSlotToInsert = adFactory(adSlot, googletag, refreshTimer);
     adsToRefresh.push(adSlotToInsert);
 };
 const refreshViewPercentage = (event) => {
     const { slot, inViewPercentage } = event;
-    const adIndex = adsToRefresh.findIndex(el => el.adSlot.getSlotElementId() === slot.getSlotElementId());
+    const adIndex = adsToRefresh.findIndex((el) => el.adSlot.getSlotElementId() === slot.getSlotElementId());
     if (adIndex === -1)
         return;
     adsToRefresh[adIndex].setViewPercentage(inViewPercentage);
@@ -59,7 +63,7 @@ const refreshViewPercentage = (event) => {
 };
 const impressionViewable = (event) => {
     const { slot } = event;
-    const adIndex = adsToRefresh.findIndex(el => el.adSlot.getSlotElementId() === slot.getSlotElementId());
+    const adIndex = adsToRefresh.findIndex((el) => el.adSlot.getSlotElementId() === slot.getSlotElementId());
     if (adIndex === -1)
         return;
     adsToRefresh[adIndex].impressionViewable();
